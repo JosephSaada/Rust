@@ -1,5 +1,6 @@
 use std::fmt; // Import `fmt`
 
+mod print;
 // A structure holding two numbers. `Debug` will be derived so the results can
 // be contrasted with `Display`.
 #[derive(Debug)]
@@ -20,6 +21,11 @@ struct Point2D {
     y: f64,
 }
 
+#[derive(Debug)]
+struct Complex{ 
+    x: f64, 
+    y: f64, 
+}
 // Similarly, implement `Display` for `Point2D`
 impl fmt::Display for Point2D {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -28,7 +34,15 @@ impl fmt::Display for Point2D {
     }
 }
 
-fn main() {
+impl fmt::Display for Complex {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        // Customize so only `x` and `y` are denoted.
+        write!(f, "{} + {}", self.x, self.y)
+    }
+}
+fn main() { 
+    print::run(); 
+
     let minmax = MinMax(0, 14);
 
     println!("Compare structures:");
@@ -46,7 +60,11 @@ fn main() {
 
     println!("Compare points:");
     println!("Display: {}", point);
-    println!("Debug: {:?}", point);
+    println!("Debug: {:?}", point); 
+
+    let num = Complex {x:3.3, y: 7.2}; 
+    println!("Display: {}i", num); 
+    println!("Debug: {:?}", num); 
 
     // Error. Both `Debug` and `Display` were implemented, but `{:b}`
     // requires `fmt::Binary` to be implemented. This will not work.
